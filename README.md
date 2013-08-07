@@ -1,5 +1,9 @@
 fastbill-automatic
 ==================
+<!--- 
+[![Gem Version](https://badge.fury.io/rb/fastbill-automatic.png)](http://badge.fury.io/rb/fastbill-automatic)
+[![Build Status](https://travis-ci.org/weluse/fastbill-automatic.png?branch=master)](https://travis-ci.org/weluse/fastbill-automatic)
+--> 
 
 Ruby wrapper for the FastBill Automatic API
 
