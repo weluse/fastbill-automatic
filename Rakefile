@@ -1,8 +1,4 @@
-require "bundler/gem_tasks"
-
-require 'rake/testtask'
-
-Rake::TestTask.new do |t|
-  t.libs << 'test'
-  t.pattern = "test/**/*_test.rb"
+task :test do
+  $LOAD_PATH.unshift('lib', 'test')
+  Dir.glob('./test/**/*_test.rb') { |f| require f }
 end
