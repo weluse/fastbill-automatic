@@ -24,6 +24,12 @@ module FastbillAutomatic
       return response.success?
     end
 
+    def build_body hash
+      return {
+        fbapi: hash
+      }
+    end
+
     def build_request options, headers = {}
       return ::Typhoeus::Request.new(
         SERVICE_URL, options.merge({

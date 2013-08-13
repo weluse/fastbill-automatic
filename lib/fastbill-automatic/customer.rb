@@ -17,4 +17,8 @@ module FastbillAutomatic
       # customer.delete
     end
   end
+
+  class UnknownCustomer < Customer
+    # TODO noop if method is called
+  end
 end
