@@ -17,5 +17,8 @@ class ClientTest < MiniTest::Unit::TestCase
 
   def test_passes_content_type_json
     client = ::FastbillAutomatic::Client.new("max@mustermann.de", "nopass123")
+
+    request = client.build_request({})
+    assert_equal 'application/json', request.options[:headers]['Content-Type']
   end
 end
