@@ -1,4 +1,6 @@
-task :test do
-  $LOAD_PATH.unshift('lib', 'test')
-  Dir.glob('./test/**/*_test.rb') { |f| require f }
+require 'rake/testtask'
+
+Rake::TestTask.new do |t|
+  t.libs << 'test'
+  t.pattern = "test/**/*_test.rb"
 end
