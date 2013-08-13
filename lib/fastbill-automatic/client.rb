@@ -1,3 +1,5 @@
+require 'json'
+
 module FastbillAutomatic
   class Client
     SERVICE_URL = "https://my.fastbill.com/api/1.0/api.php"
@@ -8,11 +10,18 @@ module FastbillAutomatic
       @api_key = api_key
     end
 
-    def login_request password
-      return build_request({}, {
+    def login password
+      request = build_request({}, {
         'X-Username' => email,
         'X-Password' => password
         })
+      response = request.run
+
+      if response.success?
+        @api_key = JSON.parse(response.body)['api_key']
+      end
+
+      return response.success?
     end
 
     def build_request options, headers = {}

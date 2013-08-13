@@ -6,8 +6,8 @@ class ClientTest < MiniTest::Unit::TestCase
 	end
 
   def test_handles_user_login
-    response = Typhoeus::Response.new(code: 200, body: "{'apikey' : 'paul'}")
-    Typhoeus.stub('my.fastbill.com').and_return(response)
+    response = ::Typhoeus::Response.new(code: 200, body: JSON.dump({ api_key: 'paul' }))
+    ::Typhoeus.stub(/my\.fastbill\.com/).and_return(response)
 
     client = ::FastbillAutomatic::Client.new("max@mustermann.de")
     assert client.login("nopass123")
