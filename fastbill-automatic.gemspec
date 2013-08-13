@@ -6,8 +6,8 @@ require 'version'
 Gem::Specification.new do |spec|
   spec.name          = "fastbill-automatic"
   spec.version       = FastbillAutomatic::VERSION
-  spec.authors       = ["Markus Krebber"]
-  spec.email         = ["mkrebber@weluse.de"]
+  spec.authors       = ["Markus Krebber", "Raphael Randschau"]
+  spec.email         = ["mkrebber@weluse.de", "rrandschau@weluse.de"]
   spec.description   = %q{fastbill automatic api client}
   spec.summary       = %q{fastbill automatic api client}
   spec.homepage      = "http://weluse.de"
