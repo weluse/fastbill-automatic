@@ -81,6 +81,11 @@ This gem makes use of the **[minitest framework](https://github.com/seattlerb/mi
 $ bundle exec guard
 ```
 
+## Documentation
+
+This gem is documented using [RDoc](http://rdoc.sourceforge.net/doc/). You can generated the entire documentation locally using
+`bundle exec rake rdoc`.
+
 ## Contributing to fastbill-automatic
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
