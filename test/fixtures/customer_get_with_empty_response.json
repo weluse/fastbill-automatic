@@ -1,0 +1,11 @@
+{
+    "REQUEST": {
+        "SERVICE": "customer.get",
+        "FILTER": {
+            "CUSTOMER_ID": "2973432"
+        }
+    },
+    "RESPONSE": {
+        "CUSTOMERS": []
+    }
+}

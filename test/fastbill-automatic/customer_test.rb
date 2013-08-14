@@ -20,15 +20,21 @@ class CustomerTest < Minitest::Test
     assert_equal "297343", customer.customer_id
   end
 
-  def test_all_transfers_filter_properly
-    #
-  end
+  def test_find_by_id_returns_existing_customer_if_known
+    response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_get_without_filter.json'))
+    Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
-  def test_find_by_id_returns_customer_if_known
-    #
+    customer = ::FastbillAutomatic::Customer.find_by_id("297343")
+    assert customer != nil
+    assert_equal "297343", customer.customer_id
   end
 
   def test_find_by_id_returns_unknown_customer_if_unknown
-    #
+    response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_get_with_empty_response.json'))
+    Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
+
+    customer = ::FastbillAutomatic::Customer.find_by_id("2973432")
+    assert customer != nil
+    assert customer.is_a?(::FastbillAutomatic::UnknownCustomer)
   end
 end
