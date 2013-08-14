@@ -1,0 +1,44 @@
+{
+    "REQUEST": {
+        "SERVICE": "customer.get",
+        "FILTER": {
+            "CUSTOMER_ID": "297343"
+        }
+    },
+    "RESPONSE": {
+        "CUSTOMERS": [
+            {
+                "CUSTOMER_ID": "297343",
+                "CUSTOMER_NUMBER": "1",
+                "DAYS_FOR_PAYMENT": "14",
+                "CREATED": "2013-08-05 18:15:10",
+                "PAYMENT_TYPE": "1",
+                "BANK_NAME": "",
+                "BANK_ACCOUNT_NUMBER": "",
+                "BANK_CODE": "",
+                "BANK_ACCOUNT_OWNER": "",
+                "SHOW_PAYMENT_NOTICE": "0",
+                "CUSTOMER_TYPE": "business",
+                "NEWSLETTER_OPTIN": "1",
+                "ORGANIZATION": "Test Customer",
+                "SALUTATION": "",
+                "FIRST_NAME": "",
+                "LAST_NAME": "",
+                "ADDRESS": "Teststrasse 20",
+                "ADDRESS_2": "",
+                "ZIPCODE": "12345",
+                "CITY": "Hamburg",
+                "COUNTRY_CODE": "DE",
+                "PHONE": "",
+                "EMAIL": "",
+                "VAT_ID": "",
+                "CURRENCY_CODE": "EUR",
+                "COMMENT": "",
+                "LASTUPDATE": "2013-08-05 18:41:34",
+                "CUSTOMER_EXT_UID": false,
+                "CHANGEDATA_URL": "https://automatic.fastbill.com/accountdata/52addd9170b0473844d8e674c0e25598/c6b472ae21f9cbd8fb78bc2465de00b9",
+                "DASHBOARD_URL": "https://automatic.fastbill.com/dashboard/52addd9170b0473844d8e674c0e25598/c6b472ae21f9cbd8fb78bc2465de00b9"
+            }
+        ]
+    }
+}

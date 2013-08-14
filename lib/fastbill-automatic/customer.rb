@@ -63,6 +63,26 @@ module FastbillAutomatic
     def destroy
       # customer.delete
     end
+
+    # to allow easy access to our attributes overwrite method_missing and
+    # as a good citizen also overwrite respond_to?
+    def respond_to? method, *args
+      clean_method = method.to_s.downcase
+      if PARSED_ATTRIBUTES.include?(clean_method)
+        return true
+      else
+        return super
+      end
+    end
+
+    def method_missing method, *args
+      clean_method = method.to_s.downcase
+      if PARSED_ATTRIBUTES.include?(clean_method)
+        return attributes[clean_method]
+      else
+        return super
+      end
+    end
   end
 
   class UnknownCustomer < Customer
