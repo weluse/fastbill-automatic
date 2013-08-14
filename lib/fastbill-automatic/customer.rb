@@ -74,7 +74,7 @@ module FastbillAutomatic
 
     # Executes customer.create. If the response succeeds the #customer_id is set and true is returned.
     #
-    # If the request failed #errors is set.
+    # If the request fails #errors is set.
     def create
       response = client.execute_request('customer.create', {
         data: attributes
@@ -92,7 +92,7 @@ module FastbillAutomatic
 
     # Executes customer.update. Returns true if the response succeeded.
     #
-    # If the request failed #errors is set.
+    # If the request fails #errors is set.
     def update
       response = client.execute_request('customer.update', {
         data: attributes
@@ -107,6 +107,9 @@ module FastbillAutomatic
       return false
     end
 
+    # Executes customer.delete. Returns true if the response succeeded.
+    #
+    # If the request fails #error is set
     def destroy
       response = client.execute_request('customer.delete', {
         data: {
