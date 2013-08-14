@@ -1,21 +1,20 @@
 module FastbillAutomatic
   class Customers
     attr_accessor :client
-    def initialize client
+    def initialize client = FastbillAutomatic.client
       @client = client
     end
 
     # returns an Enumerable containing Customer objects
     def all filter = {}
-      body = client.build_body({ service: 'customer.get', filter: filter })
-      request = client.build_request({
-        body: JSON.dump(body)
-      })
-      response = request.run
+      response = client.execute_request('customer.get', { filter: filter })
 
       results = []
       if response.success?
-        # TODO parse response
+        results = response.fetch('customers').map { |data| Customer.parse(data) }
+      else
+        # TODO handle error case
+        p response.errors
       end
       return results
     end
