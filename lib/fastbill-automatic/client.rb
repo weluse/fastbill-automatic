@@ -36,6 +36,7 @@ module FastbillAutomatic
       response = request.run
 
       if Typhoeus::Config.verbose
+        puts request.options
         puts response.body
       end
 

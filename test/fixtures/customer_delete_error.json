@@ -1,0 +1,13 @@
+{
+    "REQUEST": {
+        "SERVICE": "customer.delete",
+        "DATA": {
+            "CUSTOMER_ID": 42
+        }
+    },
+    "RESPONSE": {
+        "ERRORS": [
+            "Customer Error: Missing / invalid field: CUSTOMER_ID"
+        ]
+    }
+}

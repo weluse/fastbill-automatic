@@ -93,7 +93,7 @@ class CustomerTest < Minitest::Test
     assert customer.errors.empty?
   end
 
-  def test_update_false_upon_failure_and_sets_errors
+  def test_update_returns_false_upon_failure_and_sets_errors
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_update_error.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
@@ -101,6 +101,28 @@ class CustomerTest < Minitest::Test
       'CUSTOMER_NUMBER' => '42'
     })
     assert !customer.update()
+    assert !customer.errors.empty?
+  end
+
+  def test_destroy_returns_true_upon_success
+    response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_delete_success.json'))
+    Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
+
+    customer = ::FastbillAutomatic::Customer.new({
+      'CUSTOMER_ID' => '42'
+    })
+    assert customer.destroy()
+    assert customer.errors.empty?
+  end
+
+  def test_destroy_returns_false_upon_failure_and_sets_errors
+    response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_delete_error.json'))
+    Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
+
+    customer = ::FastbillAutomatic::Customer.new({
+      'CUSTOMER_NUMBER' => '42'
+    })
+    assert !customer.destroy()
     assert !customer.errors.empty?
   end
 

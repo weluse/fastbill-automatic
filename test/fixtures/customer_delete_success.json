@@ -1,0 +1,11 @@
+{
+    "REQUEST": {
+        "SERVICE": "customer.delete",
+        "DATA": {
+            "CUSTOMER_ID": 42
+        }
+    },
+    "RESPONSE": {
+        "STATUS": "success"
+    }
+}

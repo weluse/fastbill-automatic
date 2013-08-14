@@ -108,7 +108,19 @@ module FastbillAutomatic
     end
 
     def destroy
-      # customer.delete
+      response = client.execute_request('customer.delete', {
+        data: {
+          customer_id: self.customer_id
+        }
+      })
+
+      if response.success? && response.fetch('status') == 'success'
+        @errors = []
+        return true
+      end
+
+      @errors = response.errors
+      return false
     end
 
     # To allow easy access to our attributes overwrite method_missing and
