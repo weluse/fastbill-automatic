@@ -1,6 +1,5 @@
 require "version"
 require "fastbill-automatic/client"
-require "fastbill-automatic/customers"
 require "fastbill-automatic/customer"
 
 module FastbillAutomatic

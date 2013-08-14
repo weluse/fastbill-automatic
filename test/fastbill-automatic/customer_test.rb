@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CustomersTest < Minitest::Test
+class CustomerTest < Minitest::Test
   def test_all_returns_enumberable_with_customers
     #
   end

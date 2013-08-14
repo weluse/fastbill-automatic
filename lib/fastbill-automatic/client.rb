@@ -9,7 +9,7 @@ module FastbillAutomatic
     end
 
     def success?
-      return @success
+      return @success && errors.empty?
     end
 
     def errors

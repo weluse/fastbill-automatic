@@ -19,6 +19,31 @@ module FastbillAutomatic
       return customer
     end
 
+    # returns an Enumerable containing Customer objects
+    def self.all filter = {}, client = FastbillAutomatic.client
+      response = client.execute_request('customer.get', { filter: filter })
+
+      results = []
+      if response.success?
+        results = response.fetch('customers').map { |data| Customer.parse(data) }
+      else
+        # TODO handle error case
+        p response.errors
+      end
+      return results
+    end
+
+    # returns an Customer or UnknownCustomer if id is unknown
+    def self.find_by_id id, client = FastbillAutomatic.client
+      response = client.execute_request('customer.get', { filter: { customer_id: id } })
+
+      if response.success? && (customers_data = response.fetch('customers')).length > 0
+        self.parse(customers_data[0])
+      else
+        return UnknownCustomer.new
+      end
+    end
+
     attr_accessor :client
     attr_accessor :attributes
 
