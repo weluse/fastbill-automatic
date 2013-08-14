@@ -35,7 +35,7 @@ module FastbillAutomatic
 
       results = []
       if response.success?
-        results = response.fetch('customers').map { |data| Customer.new(data) }
+        results = response.fetch('customers').map { |data| self.new(data, client) }
       else
         # TODO handle error case
         p response.errors
@@ -49,7 +49,7 @@ module FastbillAutomatic
       response = client.execute_request('customer.get', { filter: { customer_id: id } })
 
       if response.success? && (customers_data = response.fetch('customers')).length > 0
-        self.new(customers_data[0])
+        self.new(customers_data[0], client)
       else
         return UnknownCustomer.new
       end

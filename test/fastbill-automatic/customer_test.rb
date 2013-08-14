@@ -154,6 +154,15 @@ class CustomerTest < Minitest::Test
     assert_equal "297343", customer.customer_id
   end
 
+  def test_all_uses_client_from_arguments
+    response = ::FastbillAutomatic::Response.new(false, {})
+
+    client = stub('FastbillAutomatic::Client')
+    client.expects(:execute_request).returns(response)
+
+    ::FastbillAutomatic::Customer.all({}, client)
+  end
+
   def test_find_by_id_returns_existing_customer_if_known
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_get_without_filter.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
@@ -170,5 +179,14 @@ class CustomerTest < Minitest::Test
     customer = ::FastbillAutomatic::Customer.find_by_id("2973432")
     assert customer != nil
     assert customer.is_a?(::FastbillAutomatic::UnknownCustomer)
+  end
+
+  def test_find_by_id_uses_client_from_arguments
+    response = ::FastbillAutomatic::Response.new(false, {})
+
+    client = stub('FastbillAutomatic::Client')
+    client.expects(:execute_request).returns(response)
+
+    ::FastbillAutomatic::Customer.find_by_id('42', client)
   end
 end
