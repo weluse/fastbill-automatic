@@ -56,6 +56,19 @@ module FastbillAutomatic
       parse_attributes attrs
     end
 
+    # invokes either #create or #update, depending on the current state of the instance
+    def save
+      if new?
+        return create()
+      else
+        return update()
+      end
+    end
+
+    def new?
+      return customer_id.to_s == ''
+    end
+
     def create
       # customer.create
     end

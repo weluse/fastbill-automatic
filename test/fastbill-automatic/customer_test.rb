@@ -26,6 +26,14 @@ class CustomerTest < Minitest::Test
     assert_equal 42, customer.customer_id
   end
 
+  def test_is_new
+    customer = ::FastbillAutomatic::Customer.new()
+    assert customer.new?
+
+    customer.customer_id = 42
+    assert !customer.new?
+  end
+
   def test_all_returns_enumberable_with_customers
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_get_without_filter.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
