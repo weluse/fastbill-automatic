@@ -2,6 +2,13 @@ module FastbillAutomatic
 
   # The FastbillAutomatic::Customer class wraps basic interactions for
   # customer.get|update|delete service calls.
+  #
+  # When creating instances of FastbillAutomatic::Customer one can pass
+  # all values specified in PARSED_ATTRIBUTES along and the attributes
+  # will be set accordingly.
+  #
+  # E.g.
+  # ::FastbillAutomatic::Customer.new({ customer_id: 42 })
   class Customer
     # Only attributes specified in this array are parsed from FastbillAutomatic responses.
     #
@@ -48,13 +55,25 @@ module FastbillAutomatic
       end
     end
 
-    attr_accessor :client, :attributes, :errors
+    # must be an instance of FastbillAutomatic::Client or compatible.
+    #
+    # The client is used to build and execute queries against FastbillAutomatic
+    attr_reader :client
+
+    # contains all attributes read- and written from and to the FastbillAutomatic API
+    #
+    # It is currently not possible to pass along additional attributes.
+    attr_reader :attributes
+
+    # are set if an request to the FastbillAutomatic API failed. Most
+    # of the time it will contain an Array of error messages.
+    attr_reader :errors
 
     # Creates a new instance of Customer using passed attrs to initialize the
     # instance attributes
     def initialize attrs = Hash.new, client = FastbillAutomatic.client
       @client = client
-      parse_attributes attrs
+      parse_attributes attrs, true
       @errors = []
     end
 
@@ -161,8 +180,16 @@ module FastbillAutomatic
       return method.to_s.downcase
     end
 
-    def parse_attributes attrs
+    def parse_attributes attrs, case_insensitive = false
       @attributes = Hash.new
+      if case_insensitive
+        cleaned_attrs = Hash.new
+        attrs.each do |key, value|
+          cleaned_attrs[key.to_s.upcase] = value
+        end
+        attrs = cleaned_attrs
+      end
+
       PARSED_ATTRIBUTES.each do |attribute|
         @attributes[clean_method_name(attribute)] = attrs.fetch(clean_method_name(attribute).upcase, '')
       end

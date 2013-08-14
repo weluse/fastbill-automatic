@@ -9,6 +9,23 @@ class CustomerTest < Minitest::Test
     ::FastbillAutomatic.client = nil
   end
 
+  def test_initialize_with_case_insensitive_attributes
+    customer = ::FastbillAutomatic::Customer.new({
+      'CUSTOMER_ID' => 42
+    })
+    assert_equal 42, customer.customer_id
+
+    customer = ::FastbillAutomatic::Customer.new({
+      'cuSTOmer_Id' => 42
+    })
+    assert_equal 42, customer.customer_id
+
+    customer = ::FastbillAutomatic::Customer.new({
+      :customer_id => 42
+    })
+    assert_equal 42, customer.customer_id
+  end
+
   def test_attribute_getter
     customer = ::FastbillAutomatic::Customer.new({
       'CUSTOMER_ID' => 42
