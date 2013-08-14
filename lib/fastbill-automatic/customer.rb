@@ -66,7 +66,9 @@ module FastbillAutomatic
   end
 
   class UnknownCustomer < Customer
-    # TODO noop if method is called
+    def create; end
+    def update; end
+    def destroy; end
   end
 end
 
