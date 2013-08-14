@@ -9,7 +9,7 @@ module FastbillAutomatic
   # part is ignored.
   class Response
     attr_reader :body
-    # The client initializes each ::FastbillAutomatic::Response using the
+    # The client initializes each Response using the
     # HTTP Status Code, and the entire response body.
     def initialize success, body
       @success = success || false
@@ -45,7 +45,7 @@ module FastbillAutomatic
     # The FastbillAutomatic api_key as displayed in your FastbillAutomatic profil page
     attr_reader :api_key
 
-    # Creates a new instance of ::FastbillAutomatic::Client, assigning both
+    # Creates a new instance of Client, assigning both
     # :email and :api_key.
     #
     # Most likely you'll want to assign the returned instance to
@@ -61,7 +61,7 @@ module FastbillAutomatic
     # Synchronously executes a request against the FastbillAutomatic API using
     # Typhoeus.
     #
-    # Responses are wrapped using ::FastbillAutomatic::Response
+    # Responses are wrapped using Response
     def execute_request service, other = {}, headers = {}
       request = build_request(service, other, headers)
       response = request.run

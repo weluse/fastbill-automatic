@@ -1,14 +1,14 @@
 module FastbillAutomatic
 
-  # The FastbillAutomatic::Customer class wraps basic interactions for
+  # The Customer class wraps basic interactions for
   # customer.get|update|delete service calls.
   #
-  # When creating instances of FastbillAutomatic::Customer one can pass
+  # When creating instances of Customer one can pass
   # all values specified in PARSED_ATTRIBUTES along and the attributes
   # will be set accordingly.
   #
   # E.g.
-  # ::FastbillAutomatic::Customer.new({ customer_id: 42 })
+  # ::Customer.new({ customer_id: 42 })
   class Customer
     # Only attributes specified in this array are parsed from FastbillAutomatic responses.
     #
@@ -55,7 +55,7 @@ module FastbillAutomatic
       end
     end
 
-    # must be an instance of FastbillAutomatic::Client or compatible.
+    # must be an instance of Client or compatible.
     #
     # The client is used to build and execute queries against FastbillAutomatic
     attr_reader :client
