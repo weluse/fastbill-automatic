@@ -1,3 +1,7 @@
+#
+# The FastbillAutomatic::Customer class wraps basic interactions for
+# customer.get|update|delete service calls.
+#
 module FastbillAutomatic
   class Customer
     PARSED_ATTRIBUTES = %w(customer_id customer_number
@@ -20,6 +24,12 @@ module FastbillAutomatic
     end
 
     # returns an Enumerable containing Customer objects
+    # filter supports the following keys:
+    #   * customer_id      same as .find_by_id
+    #   * customer_number  search customer by exact customer_number
+    #   * country_code     search customers by country
+    #   * city             search customers by city
+    #   * term             search customers by term (only ORGANIZATION, FIRST_NAME, LAST_NAME, ADDRESS, ADDRESS_2, ZIPCODE, EMAIL)
     def self.all filter = {}, client = FastbillAutomatic.client
       response = client.execute_request('customer.get', { filter: filter })
 
