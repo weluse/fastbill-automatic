@@ -62,6 +62,7 @@ class CustomerTest < Minitest::Test
     assert customer.create()
 
     assert_equal 42, customer.customer_id
+    assert customer.errors.empty?
   end
 
   def test_create_does_nothing_upon_failure
@@ -72,6 +73,34 @@ class CustomerTest < Minitest::Test
       'CUSTOMER_NUMBER' => '2'
     })
     assert !customer.create()
+    assert !customer.errors.empty?
+  end
+
+  def test_update_returns_true_upon_success
+    response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_update_success.json'))
+    Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
+
+    customer = ::FastbillAutomatic::Customer.new({
+      'CUSTOMER_ID' => '42',
+      'CUSTOMER_TYPE' => 'business',
+      'ORGANIZATION' => 'Musterfirma',
+      'ZIPCODE' => '12345',
+      'CITY' => 'Kiel',
+      'COUNTRY_CODE' => 'DE',
+      'PAYMENT_TYPE' => '1'
+    })
+    assert customer.update()
+    assert customer.errors.empty?
+  end
+
+  def test_update_false_upon_failure_and_sets_errors
+    response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_update_error.json'))
+    Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
+
+    customer = ::FastbillAutomatic::Customer.new({
+      'CUSTOMER_NUMBER' => '42'
+    })
+    assert !customer.update()
     assert !customer.errors.empty?
   end
 
