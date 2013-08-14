@@ -24,7 +24,7 @@ module FastbillAutomatic
 
     # Returns an Enumerable containing Customer objects.
     #
-    # Filter supports the following keys:
+    # filter supports the following keys:
     # * customer_id      same as .find_by_id
     # * customer_number  search customer by exact customer_number
     # * country_code     search customers by country
