@@ -21,7 +21,7 @@ module FastbillAutomatic
       return @success && errors.empty?
     end
 
-    # Returns all Arrays present in the response.
+    # Returns an Array containing all errors present in the response.
     def errors
       return fetch('errors') || []
     end
