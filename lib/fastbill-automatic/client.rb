@@ -3,6 +3,7 @@ require 'typhoeus'
 
 module FastbillAutomatic
   class Response
+    attr_reader :body
     def initialize success, body
       @success = success || false
       @body = body.fetch('RESPONSE', {})
@@ -13,7 +14,7 @@ module FastbillAutomatic
     end
 
     def errors
-      return @body.fetch('ERRORS', [])
+      return fetch('errors') || []
     end
 
     def fetch(key)
@@ -33,6 +34,10 @@ module FastbillAutomatic
     def execute_request service, other = {}, headers = {}
       request = build_request(service, other, headers)
       response = request.run
+
+      if Typhoeus::Config.verbose
+        puts response.body
+      end
 
       return Response.new(response.success?, JSON.parse(response.body))
     end

@@ -46,7 +46,10 @@ class CustomerTest < Minitest::Test
     customer.save()
   end
 
-  def test_create_executes_correct_query
+  def test_create_assigns_customer_id_upon_success
+    response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_create_success.json'))
+    Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
+
     customer = ::FastbillAutomatic::Customer.new({
       'CUSTOMER_NUMBER' => '2',
       'CUSTOMER_TYPE' => 'business',
@@ -56,7 +59,20 @@ class CustomerTest < Minitest::Test
       'COUNTRY_CODE' => 'DE',
       'PAYMENT_TYPE' => '1'
     })
-    customer.create()
+    assert customer.create()
+
+    assert_equal 42, customer.customer_id
+  end
+
+  def test_create_does_nothing_upon_failure
+    response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_create_error.json'))
+    Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
+
+    customer = ::FastbillAutomatic::Customer.new({
+      'CUSTOMER_NUMBER' => '2'
+    })
+    assert !customer.create()
+    assert !customer.errors.empty?
   end
 
   def test_all_returns_enumberable_with_customers

@@ -48,14 +48,14 @@ module FastbillAutomatic
       end
     end
 
-    attr_accessor :client
-    attr_accessor :attributes
+    attr_accessor :client, :attributes, :errors
 
     # Creates a new instance of Customer using passed attrs to initialize the
     # instance attributes
     def initialize attrs = Hash.new, client = FastbillAutomatic.client
       @client = client
       parse_attributes attrs
+      @errors = []
     end
 
     # Invokes either #create or #update, depending on the current state of the instance
@@ -69,19 +69,22 @@ module FastbillAutomatic
 
     # Decides if a Customer is persisted by looking at its #customer_id
     def new?
-      return customer_id.to_s == ''
+      return self.customer_id.to_s == ''
     end
 
+    # Executes customer.create. If the response succeeds the #customer_id is set and true is returned.
     def create
       response = client.execute_request('customer.create', {
         data: attributes
       })
 
       if response.success? && response.fetch('STATUS') == 'success'
-        customer_id = response.fetch('CUSTOMER_ID')
+        self.customer_id = response.fetch('customer_id')
+        @errors = []
         return true
       end
 
+      @errors = response.errors
       return false
     end
 
