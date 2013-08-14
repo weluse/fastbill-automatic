@@ -2,22 +2,31 @@ require 'json'
 require 'typhoeus'
 
 module FastbillAutomatic
+  # Wraps the result of a Typhoeus response.
   #
+  # This class only allows access to the FastbillAutomatic RESPONSE.
+  # Fastbill also sends along the original request body, but this
+  # part is ignored.
   class Response
     attr_reader :body
+    # The client initializes each ::FastbillAutomatic::Response using the
+    # HTTP Status Code, and the entire response body.
     def initialize success, body
       @success = success || false
       @body = body.fetch('RESPONSE', {})
     end
 
+    # Returns true if the HTTP Status code was 200, and no errors were present in the response
     def success?
       return @success && errors.empty?
     end
 
+    # Returns all Arrays present in the response.
     def errors
       return fetch('errors') || []
     end
 
+    # Returns an item from the response body.
     def fetch(key)
       return @body.fetch(key.upcase, nil)
     end
