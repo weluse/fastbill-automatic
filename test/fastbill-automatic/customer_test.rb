@@ -9,6 +9,23 @@ class CustomerTest < Minitest::Test
     ::FastbillAutomatic.client = nil
   end
 
+  def test_attribute_getter
+    customer = ::FastbillAutomatic::Customer.new({
+      'CUSTOMER_ID' => 42
+    })
+    assert customer.respond_to?(:customer_id)
+    assert_equal 42, customer.customer_id
+  end
+
+  def test_attribute_setter
+    customer = ::FastbillAutomatic::Customer.new()
+    assert_equal '', customer.customer_id
+
+    assert customer.respond_to?(:customer_id=)
+    customer.customer_id = 42
+    assert_equal 42, customer.customer_id
+  end
+
   def test_all_returns_enumberable_with_customers
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_get_without_filter.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
