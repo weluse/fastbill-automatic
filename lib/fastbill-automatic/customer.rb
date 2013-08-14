@@ -196,6 +196,11 @@ module FastbillAutomatic
     end
   end
 
+  # When calls to Customer.find_by_id return no results
+  # an instance of UnknownCustomer is returned instead.
+  #
+  # UnknownCustomer acts like a regular Customer
+  # except that you can not #create, #update or #destroy it.
   class UnknownCustomer < Customer
     def create; end
     def update; end
