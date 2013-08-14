@@ -34,6 +34,31 @@ class CustomerTest < Minitest::Test
     assert !customer.new?
   end
 
+  def test_save_invokes_create_for_new_instances
+    customer = ::FastbillAutomatic::Customer.new()
+    customer.expects(:create).returns(true)
+    customer.save()
+  end
+
+  def test_save_invokes_update_for_persisted_instances
+    customer = ::FastbillAutomatic::Customer.new({ 'CUSTOMER_ID' => 42 })
+    customer.expects(:update).returns(true)
+    customer.save()
+  end
+
+  def test_create_executes_correct_query
+    customer = ::FastbillAutomatic::Customer.new({
+      'CUSTOMER_NUMBER' => '2',
+      'CUSTOMER_TYPE' => 'business',
+      'ORGANIZATION' => 'Musterfirma',
+      'ZIPCODE' => '12345',
+      'CITY' => 'Kiel',
+      'COUNTRY_CODE' => 'DE',
+      'PAYMENT_TYPE' => '1'
+    })
+    customer.create()
+  end
+
   def test_all_returns_enumberable_with_customers
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_get_without_filter.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
