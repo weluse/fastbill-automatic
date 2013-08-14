@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class CustomerTest < Minitest::Test
+  include ::FastbillAutomatic::Resources
   attr_accessor :client
   def setup
     @client = ::FastbillAutomatic.client = ::FastbillAutomatic::Client.new("max@mustermann.de", "nopass123")
@@ -10,24 +11,24 @@ class CustomerTest < Minitest::Test
   end
 
   def test_initialize_with_case_insensitive_attributes
-    customer = ::FastbillAutomatic::Customer.new({
+    customer = Customer.new({
       'CUSTOMER_ID' => 42
     })
     assert_equal 42, customer.customer_id
 
-    customer = ::FastbillAutomatic::Customer.new({
+    customer = Customer.new({
       'cuSTOmer_Id' => 42
     })
     assert_equal 42, customer.customer_id
 
-    customer = ::FastbillAutomatic::Customer.new({
+    customer = Customer.new({
       :customer_id => 42
     })
     assert_equal 42, customer.customer_id
   end
 
   def test_attribute_getter
-    customer = ::FastbillAutomatic::Customer.new({
+    customer = Customer.new({
       'CUSTOMER_ID' => 42
     })
     assert customer.respond_to?(:customer_id)
@@ -35,7 +36,7 @@ class CustomerTest < Minitest::Test
   end
 
   def test_attribute_setter
-    customer = ::FastbillAutomatic::Customer.new()
+    customer = Customer.new()
     assert_equal '', customer.customer_id
 
     assert customer.respond_to?(:customer_id=)
@@ -44,7 +45,7 @@ class CustomerTest < Minitest::Test
   end
 
   def test_is_new
-    customer = ::FastbillAutomatic::Customer.new()
+    customer = Customer.new()
     assert customer.new?
 
     customer.customer_id = 42
@@ -52,13 +53,13 @@ class CustomerTest < Minitest::Test
   end
 
   def test_save_invokes_create_for_new_instances
-    customer = ::FastbillAutomatic::Customer.new()
+    customer = Customer.new()
     customer.expects(:create).returns(true)
     customer.save()
   end
 
   def test_save_invokes_update_for_persisted_instances
-    customer = ::FastbillAutomatic::Customer.new({ 'CUSTOMER_ID' => 42 })
+    customer = Customer.new({ 'CUSTOMER_ID' => 42 })
     customer.expects(:update).returns(true)
     customer.save()
   end
@@ -67,7 +68,7 @@ class CustomerTest < Minitest::Test
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_create_success.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
-    customer = ::FastbillAutomatic::Customer.new({
+    customer = Customer.new({
       'CUSTOMER_NUMBER' => '2',
       'CUSTOMER_TYPE' => 'business',
       'ORGANIZATION' => 'Musterfirma',
@@ -86,7 +87,7 @@ class CustomerTest < Minitest::Test
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_create_error.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
-    customer = ::FastbillAutomatic::Customer.new({
+    customer = Customer.new({
       'CUSTOMER_NUMBER' => '2'
     })
     assert !customer.create()
@@ -97,7 +98,7 @@ class CustomerTest < Minitest::Test
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_update_success.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
-    customer = ::FastbillAutomatic::Customer.new({
+    customer = Customer.new({
       'CUSTOMER_ID' => '42',
       'CUSTOMER_TYPE' => 'business',
       'ORGANIZATION' => 'Musterfirma',
@@ -114,7 +115,7 @@ class CustomerTest < Minitest::Test
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_update_error.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
-    customer = ::FastbillAutomatic::Customer.new({
+    customer = Customer.new({
       'CUSTOMER_NUMBER' => '42'
     })
     assert !customer.update()
@@ -125,7 +126,7 @@ class CustomerTest < Minitest::Test
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_delete_success.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
-    customer = ::FastbillAutomatic::Customer.new({
+    customer = Customer.new({
       'CUSTOMER_ID' => '42'
     })
     assert customer.destroy()
@@ -136,7 +137,7 @@ class CustomerTest < Minitest::Test
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_delete_error.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
-    customer = ::FastbillAutomatic::Customer.new({
+    customer = Customer.new({
       'CUSTOMER_NUMBER' => '42'
     })
     assert !customer.destroy()
@@ -147,7 +148,7 @@ class CustomerTest < Minitest::Test
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_get_without_filter.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
-    customers = ::FastbillAutomatic::Customer.all
+    customers = Customer.all
     assert customers.length == 1
 
     customer = customers.first
@@ -160,14 +161,14 @@ class CustomerTest < Minitest::Test
     client = stub('FastbillAutomatic::Client')
     client.expects(:execute_request).returns(response)
 
-    ::FastbillAutomatic::Customer.all({}, client)
+    Customer.all({}, client)
   end
 
   def test_find_by_id_returns_existing_customer_if_known
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_get_without_filter.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
-    customer = ::FastbillAutomatic::Customer.find_by_id("297343")
+    customer = Customer.find_by_id("297343")
     assert customer != nil
     assert_equal "297343", customer.customer_id
   end
@@ -176,9 +177,9 @@ class CustomerTest < Minitest::Test
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_get_with_empty_response.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
-    customer = ::FastbillAutomatic::Customer.find_by_id("2973432")
+    customer = Customer.find_by_id("2973432")
     assert customer != nil
-    assert customer.is_a?(::FastbillAutomatic::UnknownCustomer)
+    assert customer.is_a?(UnknownCustomer)
   end
 
   def test_find_by_id_uses_client_from_arguments
@@ -187,6 +188,6 @@ class CustomerTest < Minitest::Test
     client = stub('FastbillAutomatic::Client')
     client.expects(:execute_request).returns(response)
 
-    ::FastbillAutomatic::Customer.find_by_id('42', client)
+    Customer.find_by_id('42', client)
   end
 end

@@ -1,7 +1,8 @@
 require "version"
 require "fastbill-automatic/client"
-require "fastbill-automatic/customer"
-require "fastbill-automatic/invoice"
+require "fastbill-automatic/resources/base"
+require "fastbill-automatic/resources/customer"
+require "fastbill-automatic/resources/invoice"
 
 module FastbillAutomatic
   # Default client used by all API resources unless a different

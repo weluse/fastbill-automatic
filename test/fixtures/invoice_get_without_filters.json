@@ -1,0 +1,83 @@
+{
+    "REQUEST": {
+        "SERVICE": "invoice.get",
+        "FILTER": [
+
+        ]
+    },
+    "RESPONSE": {
+        "INVOICES": [
+            {
+                "INVOICE_ID": "366712",
+                "TYPE": "outgoing",
+                "CUSTOMER_ID": "297343",
+                "CUSTOMER_NUMBER": "1",
+                "CUSTOMER_COSTCENTER_ID": "0",
+                "ORGANIZATION": "Test Customer",
+                "SALUTATION": "",
+                "FIRST_NAME": "Raphael",
+                "LAST_NAME": "",
+                "ADDRESS": "Teststrasse 20",
+                "ADDRESS_2": "",
+                "ZIPCODE": "12345",
+                "CITY": "Hamburg",
+                "COMMENT": "",
+                "PAYMENT_TYPE": "ueberweisung",
+                "BANK_NAME": "",
+                "BANK_ACCOUNT_NUMBER": "",
+                "BANK_CODE": "",
+                "BANK_ACCOUNT_OWNER": "",
+                "COUNTRY_CODE": "DE",
+                "VAT_ID": "",
+                "CURRENCY_CODE": "EUR",
+                "TEMPLATE_ID": "133950",
+                "INVOICE_NUMBER": "1",
+                "INTROTEXT": "",
+                "PAID_DATE": "0000-00-00 00:00:00",
+                "IS_CANCELED": "1",
+                "INVOICE_DATE": "2013-08-05",
+                "DUE_DATE": "2013-08-19 00:00:00",
+                "DELIVERY_DATE": "05.08.2013 - 04.09.2013",
+                "CASH_DISCOUNT_PERCENT": "0.00",
+                "CASH_DISCOUNT_DAYS": "0",
+                "SUB_TOTAL": 0,
+                "VAT_TOTAL": 0,
+                "VAT_ITEMS": [
+                    {
+                        "VAT_PERCENT": "19.00",
+                        "COMPLETE_NET": 0,
+                        "VAT_VALUE": 0
+                    }
+                ],
+                "ITEMS": [
+                    {
+                        "INVOICE_ITEM_ID": "795575",
+                        "ARTICLE_NUMBER": "",
+                        "DESCRIPTION": "hidden",
+                        "QUANTITY": "1.00",
+                        "UNIT_PRICE": "0.00000000",
+                        "VAT_PERCENT": "0.00",
+                        "VAT_VALUE": 0,
+                        "COMPLETE_NET": 0,
+                        "COMPLETE_GROSS": 0,
+                        "SORT_ORDER": 1
+                    },
+                    {
+                        "INVOICE_ITEM_ID": "795573",
+                        "ARTICLE_NUMBER": "1",
+                        "DESCRIPTION": "Schaufensterpaket Gratis<br>",
+                        "QUANTITY": "1.00",
+                        "UNIT_PRICE": "0.00000000",
+                        "VAT_PERCENT": "19.00",
+                        "VAT_VALUE": 0,
+                        "COMPLETE_NET": 0,
+                        "COMPLETE_GROSS": 0,
+                        "SORT_ORDER": 2
+                    }
+                ],
+                "TOTAL": 0,
+                "DOCUMENT_URL": "https://automatic.fastbill.com/download/9-_nTLaN6Vpmb-5DyH.6-4KEkxr2KrtGnrt73FGvbwU2tL6dT5VQvgUSP.Hap1gP"
+            }
+        ]
+    }
+}
