@@ -171,6 +171,60 @@ module FastbillAutomatic
         return false
       end
 
+      # Executes invoice.complete
+      def complete
+        response = client.execute_request('invoice.complete', {
+          data: {
+            invoice_id: self.invoice_id
+          }
+        })
+
+        if response.success? && response.fetch('status') == 'success'
+          @errors = []
+          return true
+        end
+
+        @errors = response.errors
+        return false
+      end
+
+      # Executes invoice.cancel
+      def cancel
+        response = client.execute_request('invoice.cancel', {
+          data: {
+            invoice_id: self.invoice_id
+          }
+        })
+
+        if response.success? && response.fetch('status') == 'success'
+          @errors = []
+          return true
+        end
+
+        @errors = response.errors
+        return false
+      end
+
+      # Executes invoice.sendbyemail
+      def send_by_email subject, message, recipient
+        response = client.execute_request('invoice.sendbyemail', {
+          data: {
+            invoice_id: self.invoice_id,
+            recipient: recipient,
+            subject: subject,
+            message: message
+          }
+        })
+
+        if response.success? && response.fetch('status') == 'success'
+          @errors = []
+          return true
+        end
+
+        @errors = response.errors
+        return false
+      end
+
       # Decides if a Customer is persisted by looking at its #customer_id
       def new?
         return self.invoice_id.to_s == ''

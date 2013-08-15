@@ -64,11 +64,14 @@ module FastbillAutomatic
     # Responses are wrapped using Response
     def execute_request service, other = {}, headers = {}
       request = build_request(service, other, headers)
+      if Typhoeus::Config.verbose
+        puts "< " + request.inspect
+      end
+
       response = request.run
 
       if Typhoeus::Config.verbose
-        puts request.options
-        puts response.body
+        puts "> " + response.body
       end
 
       return Response.new(response.success?, JSON.parse(response.body))
