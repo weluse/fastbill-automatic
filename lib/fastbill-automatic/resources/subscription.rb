@@ -28,6 +28,23 @@ module FastbillAutomatic
         end
         return results
       end
+
+      # Executes subscription.cancel
+      def cancel
+        response = client.execute_request('subscription.cancel', {
+          data: {
+            subscription_id: self.subscription_id
+          }
+        })
+
+        if response.success? && response.fetch('status') == 'success'
+          @errors = []
+          return true
+        end
+
+        @errors = response.errors
+        return false
+      end
     end
   end
 end
