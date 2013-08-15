@@ -82,6 +82,9 @@ module FastbillAutomatic
       attribute :vat_items, Array[VatItem]
       attribute :items, Array[InvoiceItem]
 
+      # set to true to replace items
+      attribute :delete_existing_items, Boolean, default: false
+
       # Returns an Enumerable containing Invoice objects.
       #
       # filter supports the following keys:
@@ -122,7 +125,7 @@ module FastbillAutomatic
       # Executes invoice.create
       def create
         response = client.execute_request('invoice.create', {
-          data: transform_attributes
+          data: transform_attributes(self.attributes, %i(vat_items delete_existing_items))
         })
 
         if response.success? && response.fetch('status') == 'success'
@@ -137,6 +140,7 @@ module FastbillAutomatic
 
       # Executes invoice.update
       def update
+        self.delete_existing_items = true
         response = client.execute_request('invoice.update', {
           data: transform_attributes
         })
