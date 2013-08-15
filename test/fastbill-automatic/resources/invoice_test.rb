@@ -63,6 +63,5 @@ class InvoiceTest < Minitest::Test
     assert_equal 0.00, item.complete_net
     assert_equal 0.00, item.complete_gross
     assert_equal 2, item.sort_order
-
   end
 end

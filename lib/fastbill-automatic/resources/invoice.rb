@@ -104,10 +104,33 @@ module FastbillAutomatic
         return results
       end
 
+      # Returns a single Invoice object
+      #
+      # Same as Invoice.filter({ invoice_id: id }) except that
+      # an instance of UnknownInvoice can be returned
+      def self.find_by_id id, client = FastbillAutomatic.client
+        response = client.execute_request('invoice.get', { filter: { invoice_id: id } })
+
+        if response.success? && (invoices_data = response.fetch('invoices')).length > 0
+          self.new(invoices_data[0], client)
+        else
+          return UnknownInvoice.new
+        end
+      end
+
       # Decides if a Customer is persisted by looking at its #customer_id
       def new?
         return self.invoice_id.to_s == ''
       end
+    end
+
+    # An Invoice that Fastbill does not known about.
+    #
+    # You'll see this if you call .find_by_id with an unknown id.
+    class UnknownInvoice < Invoice
+      def create; end
+      def update; end
+      def destroy; end
     end
   end
 end
