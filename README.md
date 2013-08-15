@@ -5,7 +5,9 @@
 [![Build Status](https://travis-ci.org/weluse/fastbill-automatic.png?branch=master)](https://travis-ci.org/weluse/fastbill-automatic)
 -->
 
-Ruby wrapper for the FastBill Automatic API, Version 1.3 (15.01.2013).
+Ruby wrapper for the FastBill Automatic API, Version 1.5 (05.08.2013).
+Please note that there are major differences between the Fastbill and Fastbill Automatic API,
+and this Gem only works for Fastbill Automatic.
 
 ## Integration
 
