@@ -1,5 +1,6 @@
 module FastbillAutomatic
   module Resources
+    # VatItem entry. Occurs in Invoice#vat_items
     class VatItem
       include Virtus
 
@@ -8,6 +9,7 @@ module FastbillAutomatic
       attribute :vat_value, BigDecimal
     end
 
+    # InvoiceItem entry. Occurs in Invoice#items
     class InvoiceItem
       include Virtus
 
@@ -23,9 +25,13 @@ module FastbillAutomatic
       attribute :sort_order, Integer
     end
 
+    # Different types of invoice Fastbill supports
     module InvoiceTypes
+      # an invoice which must be paid
       OUTGOING = "outgoing"
+      # a draft the customer has not yet received
       DRAFT = "draft"
+      # a credit the customer was given (Gutschrift)
       CREDIT = "credit"
     end
 

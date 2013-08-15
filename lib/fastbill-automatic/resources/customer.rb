@@ -1,18 +1,34 @@
 module FastbillAutomatic
   module Resources
     # CustomerTypes supported by Fastbill
+    #
+    # Customer#customer_type contains a String which can be compared
+    # to these enums.
     module CustomerTypes
+      # business customer
       BUSINESS = "business"
+      # consumer customer
       CONSUMER = "consumer"
     end
 
     # PaymentTypes supported by Fastbill.
     module PaymentTypes
+      # using cashless money transfer
       UEBERWEISUNG = 1
+
+      # using debit
       LASTSCHRIFT = 2
+
+      # using cash
       BAR = 3
+
+      # using paypal
       PAYPAL = 4
+
+      # using payment in advance
       VORKASSE = 5
+
+      # using credit card
       KREDITKARTE = 6
     end
 
