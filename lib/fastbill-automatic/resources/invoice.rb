@@ -1,7 +1,79 @@
 module FastbillAutomatic
   module Resources
+    class VatItem
+      include Virtus
+
+      attribute :vat_percent, Float
+      attribute :complete_net, BigDecimal
+      attribute :vat_value, BigDecimal
+    end
+
+    class InvoiceItem
+      include Virtus
+
+      attribute :invoice_item_id, Integer
+      attribute :article_number, String
+      attribute :description, String
+      attribute :quantity, Float
+      attribute :unit_price, BigDecimal
+      attribute :vat_percent, Float
+      attribute :vat_value, BigDecimal
+      attribute :complete_net, BigDecimal
+      attribute :complete_gross, BigDecimal
+      attribute :sort_order, Integer
+    end
+
+    module InvoiceTypes
+      OUTGOING = "outgoing"
+      DRAFT = "draft"
+      CREDIT = "credit"
+    end
+
     # The Invoice class wraps basic interactions for invoice.get|create|update|delete service calls.
     class Invoice < Base
+      attribute :invoice_id, Integer
+      attribute :invoice_number, String
+      attribute :customer_id, Integer
+      attribute :customer_costcenter_id, Integer
+
+      attribute :type, String
+      attribute :comment, String
+
+      attribute :salutation, String
+      attribute :first_name, String
+      attribute :last_name, String
+      attribute :organization, String
+      attribute :address, String
+      attribute :zipcode, String
+      attribute :city, String
+      attribute :country_code, String
+
+      attribute :payment_type, String
+      attribute :bank_name, String
+      attribute :bank_account_number, String
+      attribute :bank_code, String
+      attribute :bank_account_owner, String
+
+      attribute :country_code, String
+      attribute :vat_id, String
+      attribute :currency_code, String
+      attribute :paid_date, DateTime
+      attribute :invoice_date, DateTime
+      attribute :due_date, DateTime
+      attribute :delivery_date, DateTime
+      attribute :is_canceled, Boolean
+
+      attribute :template_id, Integer
+
+      attribute :introtext, String
+      attribute :cash_discount_percent, Float
+      attribute :cash_discount_days, Integer
+      attribute :sub_total, BigDecimal
+      attribute :vat_total, BigDecimal
+      attribute :total, BigDecimal
+
+      attribute :vat_items, Array[VatItem]
+      attribute :items, Array[InvoiceItem]
 
       # Returns an Enumerable containing Invoice objects.
       #
@@ -26,7 +98,9 @@ module FastbillAutomatic
         return results
       end
 
-      def initialize data, client = FastbillAutomatic.client
+      # Decides if a Customer is persisted by looking at its #customer_id
+      def new?
+        return self.invoice_id.to_s == ''
       end
     end
   end

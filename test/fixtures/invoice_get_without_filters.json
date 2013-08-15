@@ -14,19 +14,19 @@
                 "CUSTOMER_NUMBER": "1",
                 "CUSTOMER_COSTCENTER_ID": "0",
                 "ORGANIZATION": "Test Customer",
-                "SALUTATION": "",
-                "FIRST_NAME": "Raphael",
-                "LAST_NAME": "",
+                "SALUTATION": "mr",
+                "FIRST_NAME": "Oliver",
+                "LAST_NAME": "Welge",
                 "ADDRESS": "Teststrasse 20",
                 "ADDRESS_2": "",
                 "ZIPCODE": "12345",
                 "CITY": "Hamburg",
                 "COMMENT": "",
                 "PAYMENT_TYPE": "ueberweisung",
-                "BANK_NAME": "",
-                "BANK_ACCOUNT_NUMBER": "",
-                "BANK_CODE": "",
-                "BANK_ACCOUNT_OWNER": "",
+                "BANK_NAME": "Deutsche Bank",
+                "BANK_ACCOUNT_NUMBER": "22122",
+                "BANK_CODE": "21212",
+                "BANK_ACCOUNT_OWNER": "Oliver Welge",
                 "COUNTRY_CODE": "DE",
                 "VAT_ID": "",
                 "CURRENCY_CODE": "EUR",
@@ -45,8 +45,8 @@
                 "VAT_ITEMS": [
                     {
                         "VAT_PERCENT": "19.00",
-                        "COMPLETE_NET": 0,
-                        "VAT_VALUE": 0
+                        "COMPLETE_NET": "22.00",
+                        "VAT_VALUE": "42.00"
                     }
                 ],
                 "ITEMS": [
@@ -65,7 +65,7 @@
                     {
                         "INVOICE_ITEM_ID": "795573",
                         "ARTICLE_NUMBER": "1",
-                        "DESCRIPTION": "Schaufensterpaket Gratis<br>",
+                        "DESCRIPTION": "Schaufensterpaket Gratis",
                         "QUANTITY": "1.00",
                         "UNIT_PRICE": "0.00000000",
                         "VAT_PERCENT": "19.00",

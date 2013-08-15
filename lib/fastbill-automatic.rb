@@ -20,3 +20,30 @@ module FastbillAutomatic
     return @@client
   end
 end
+
+if !Hash.new.respond_to?(:'symbolize_keys!')
+  class Hash
+    def symbolize_keys!
+      keys.each do |key|
+        value = delete(key)
+        value.symbolize_keys! if value.is_a?(Hash)
+        value.map! { |item| item.symbolize_keys! } if value.is_a?(Array)
+        self[(key.to_sym rescue key) || key] = value
+      end
+      self
+    end
+  end
+end
+if !Hash.new.respond_to?(:'downcase_keys!')
+  class Hash
+    def downcase_keys!
+      keys.each do |key|
+        value = delete(key)
+        value.downcase_keys! if value.is_a?(Hash)
+        value.map! { |item| item.downcase_keys! } if value.is_a?(Array)
+        self[(key.to_s.downcase rescue key) || key] = value
+      end
+      self
+    end
+  end
+end

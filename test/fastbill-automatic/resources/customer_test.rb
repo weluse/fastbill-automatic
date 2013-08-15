@@ -10,48 +10,6 @@ class CustomerTest < Minitest::Test
     ::FastbillAutomatic.client = nil
   end
 
-  def test_initialize_with_case_insensitive_attributes
-    customer = Customer.new({
-      'CUSTOMER_ID' => 42
-    })
-    assert_equal 42, customer.customer_id
-
-    customer = Customer.new({
-      'cuSTOmer_Id' => 42
-    })
-    assert_equal 42, customer.customer_id
-
-    customer = Customer.new({
-      :customer_id => 42
-    })
-    assert_equal 42, customer.customer_id
-  end
-
-  def test_attribute_getter
-    customer = Customer.new({
-      'CUSTOMER_ID' => 42
-    })
-    assert customer.respond_to?(:customer_id)
-    assert_equal 42, customer.customer_id
-  end
-
-  def test_attribute_setter
-    customer = Customer.new()
-    assert_equal '', customer.customer_id
-
-    assert customer.respond_to?(:customer_id=)
-    customer.customer_id = 42
-    assert_equal 42, customer.customer_id
-  end
-
-  def test_is_new
-    customer = Customer.new()
-    assert customer.new?
-
-    customer.customer_id = 42
-    assert !customer.new?
-  end
-
   def test_save_invokes_create_for_new_instances
     customer = Customer.new()
     customer.expects(:create).returns(true)
@@ -60,6 +18,7 @@ class CustomerTest < Minitest::Test
 
   def test_save_invokes_update_for_persisted_instances
     customer = Customer.new({ 'CUSTOMER_ID' => 42 })
+    assert_equal 42, customer.customer_id
     customer.expects(:update).returns(true)
     customer.save()
   end
@@ -90,8 +49,8 @@ class CustomerTest < Minitest::Test
     customer = Customer.new({
       'CUSTOMER_NUMBER' => '2'
     })
-    assert !customer.create()
-    assert !customer.errors.empty?
+    refute customer.create()
+    refute customer.errors.empty?
   end
 
   def test_update_returns_true_upon_success
@@ -118,8 +77,8 @@ class CustomerTest < Minitest::Test
     customer = Customer.new({
       'CUSTOMER_NUMBER' => '42'
     })
-    assert !customer.update()
-    assert !customer.errors.empty?
+    refute customer.update()
+    refute customer.errors.empty?
   end
 
   def test_destroy_returns_true_upon_success
@@ -140,11 +99,11 @@ class CustomerTest < Minitest::Test
     customer = Customer.new({
       'CUSTOMER_NUMBER' => '42'
     })
-    assert !customer.destroy()
-    assert !customer.errors.empty?
+    refute customer.destroy()
+    refute customer.errors.empty?
   end
 
-  def test_all_returns_enumberable_with_customers
+  def test_parses_correctly
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/customer_get_without_filter.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
 
@@ -152,7 +111,31 @@ class CustomerTest < Minitest::Test
     assert customers.length == 1
 
     customer = customers.first
-    assert_equal "297343", customer.customer_id
+    assert_equal 297343, customer.customer_id
+    assert_equal "1", customer.customer_number
+    assert_equal 14, customer.days_for_payment
+    assert_equal DateTime.parse("2013-08-05 18:15:10"), customer.created
+    assert_equal PaymentTypes::UEBERWEISUNG, customer.payment_type
+    assert_equal "Deutsche Bank", customer.bank_name
+    assert_equal "222222", customer.bank_account_number
+    assert_equal "21212121", customer.bank_code
+    assert_equal "Oliver Welge", customer.bank_account_owner
+    refute customer.show_payment_notice
+    assert_equal CustomerTypes::BUSINESS, customer.customer_type
+    assert customer.newsletter_optin
+    assert_equal "Test Customer", customer.organization
+    assert_equal "mr", customer.salutation
+    assert_equal "Oliver", customer.first_name
+    assert_equal "Welge", customer.last_name
+    assert_equal "Teststrasse 20", customer.address
+    assert_equal "12345", customer.zipcode
+    assert_equal "Hamburg", customer.city
+    assert_equal "DE", customer.country_code
+    assert_equal "01 - 2345", customer.phone
+    assert_equal "owelge@weluse.de", customer.email
+    assert_equal "", customer.vat_id
+    assert_equal "EUR", customer.currency_code
+    assert_equal DateTime.parse("2013-08-05 18:41:34"), customer.lastupdate
   end
 
   def test_all_uses_client_from_arguments
@@ -170,7 +153,7 @@ class CustomerTest < Minitest::Test
 
     customer = Customer.find_by_id("297343")
     assert customer != nil
-    assert_equal "297343", customer.customer_id
+    assert_equal 297343, customer.customer_id
   end
 
   def test_find_by_id_returns_unknown_customer_if_unknown

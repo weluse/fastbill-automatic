@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "mocha", "~> 0.14.0"
   spec.add_dependency "typhoeus", "~> 0.6.4"
+  spec.add_dependency "virtus", "~> 0.5.5"
 end
