@@ -11,6 +11,19 @@ class InvoiceTest < Minitest::Test
 
   include ::FastbillAutomatic::Resources
 
+  def test_transform_attributes
+    response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/invoice_get_without_filters.json'))
+    Typhoeus.stub(/automatic.fastbill.com/).and_return(response)
+
+    invoice = Invoice.find_by_id(366712)
+    hash = invoice.transform_attributes
+
+    assert_equal 2, hash[:items].size
+    assert hash[:items].all? { |hash| hash.is_a?(Hash) }, "converts InvoiceItem to Hash"
+
+    assert invoice.items.all? { |item| item.is_a?(InvoiceItem) }, "doesn't change original array"
+  end
+
   def test_parses_correctly
     response = Typhoeus::Response.new(code: 200, body: IO.read('test/fixtures/invoice_get_without_filters.json'))
     Typhoeus.stub(/automatic.fastbill.com/).and_return(response)

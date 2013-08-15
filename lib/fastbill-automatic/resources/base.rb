@@ -59,7 +59,7 @@ module FastbillAutomatic
         hash.keys.each do |key|
           value = hash.delete(key)
           symbolize!(value) if value.is_a?(Hash)
-          value.map! { |item| symbolize!(item) } if value.is_a?(Array)
+          value.map! { |item| item.is_a?(Hash) ? symbolize!(item) : symbolize!(item.attributes.to_h) } if value.is_a?(Array)
           hash[(key.to_sym rescue key) || key] = value
         end
         hash
@@ -69,7 +69,7 @@ module FastbillAutomatic
         hash.keys.each do |key|
           value = hash.delete(key)
           downcase!(value) if value.is_a?(Hash)
-          value.map! { |item| downcase!(item) } if value.is_a?(Array)
+          value.map! { |item| item.is_a?(Hash) ? downcase!(item) : symbolize!(item.attributes.to_h) } if value.is_a?(Array)
           hash[(key.to_s.downcase rescue key) || key] = value
         end
         hash

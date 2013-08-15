@@ -77,6 +77,7 @@ module FastbillAutomatic
       attribute :sub_total, BigDecimal
       attribute :vat_total, BigDecimal
       attribute :total, BigDecimal
+      attribute :eu_delivery, Boolean
 
       attribute :vat_items, Array[VatItem]
       attribute :items, Array[InvoiceItem]
@@ -118,9 +119,74 @@ module FastbillAutomatic
         end
       end
 
+      # Executes invoice.create
+      def create
+        response = client.execute_request('invoice.create', {
+          data: transform_attributes
+        })
+
+        if response.success? && response.fetch('status') == 'success'
+          self.invoice_id = response.fetch('invoice_id')
+          @errors = []
+          return true
+        end
+
+        @errors = response.errors
+        return false
+      end
+
+      # Executes invoice.update
+      def update
+        response = client.execute_request('invoice.update', {
+          data: transform_attributes
+        })
+
+        if response.success? && response.fetch('status') == 'success'
+          @errors = []
+          return true
+        end
+
+        @errors = response.errors
+        return false
+      end
+
+      # Executes invoice.destroy
+      def destroy
+        response = client.execute_request('invoice.delete', {
+          data: {
+            invoice_id: self.invoice_id
+          }
+        })
+
+        if response.success? && response.fetch('status') == 'success'
+          @errors = []
+          return true
+        end
+
+        @errors = response.errors
+        return false
+      end
+
       # Decides if a Customer is persisted by looking at its #customer_id
       def new?
         return self.invoice_id.to_s == ''
+      end
+
+      # Transforms attributes so they can be properly submitted to Fastbill
+      def transform_attributes attrs = self.attributes, exclusion_list = %i(vat_items)
+        hash = Hash.new
+        attrs.keys
+          .reject { |key| exclusion_list.include?(key) }
+          .each do |key|
+            value = attrs[key]
+            if value.is_a?(Array)
+              hash[key] = value.map { |item| transform_attributes(item.attributes) }
+            else
+              hash[key] = value
+            end
+
+          end
+        return hash
       end
     end
 
