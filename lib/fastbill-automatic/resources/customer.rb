@@ -99,13 +99,9 @@ module FastbillAutomatic
       # Returns an Customer if the id is known.
       # Otherwise returns an instance of UnknownCustomer
       def self.find_by_id id, client = FastbillAutomatic.client
-        response = client.execute_request('customer.get', { filter: { customer_id: id } })
+        results = self.all({ customer_id: id }, client)
 
-        if response.success? && (customers_data = response.fetch('customers')).length > 0
-          self.new(customers_data[0], client)
-        else
-          return UnknownCustomer.new
-        end
+        return results.first || UnknownCustomer.new
       end
 
       # Decides if a Customer is persisted by looking at its #customer_id

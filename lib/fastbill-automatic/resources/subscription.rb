@@ -31,13 +31,8 @@ module FastbillAutomatic
 
       # Same as .all with subscription_id as filter
       def self.find_by_id id, client = FastbillAutomatic.client
-        response = client.execute_request('subscription.get', { filter: { subscription_id: id } })
-
-        if response.success? && (subscription_data = response.fetch('subscriptions')).length > 0
-          return self.new(subscription_data[0], client)
-        else
-          return UnknownSubscription.new
-        end
+        results = self.all({ subscription_id: id }, client)
+        return results.first || UnknownSubscription.new
       end
 
       # True if the subscription has been cancelled.

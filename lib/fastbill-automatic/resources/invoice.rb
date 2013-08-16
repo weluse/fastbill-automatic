@@ -113,13 +113,9 @@ module FastbillAutomatic
       # Same as Invoice.filter({ invoice_id: id }) except that
       # an instance of UnknownInvoice can be returned
       def self.find_by_id id, client = FastbillAutomatic.client
-        response = client.execute_request('invoice.get', { filter: { invoice_id: id } })
+        results = self.all({ invoice_id: id }, client)
 
-        if response.success? && (invoices_data = response.fetch('invoices')).length > 0
-          self.new(invoices_data[0], client)
-        else
-          return UnknownInvoice.new
-        end
+        return results.first || UnknownInvoice.new
       end
 
       # Executes invoice.create
