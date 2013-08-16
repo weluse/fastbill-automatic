@@ -29,6 +29,10 @@ module FastbillAutomatic
         return results
       end
 
+      def cancelled?
+        return self.status == 'cancelled'
+      end
+
       # Executes subscription.cancel
       def cancel
         response = client.execute_request('subscription.cancel', {
@@ -39,6 +43,7 @@ module FastbillAutomatic
 
         if response.success? && response.fetch('status') == 'success'
           @errors = []
+          self.cancellation_date = response.fetch('cancellation_date')
           return true
         end
 
