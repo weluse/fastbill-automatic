@@ -29,6 +29,18 @@ module FastbillAutomatic
         return results
       end
 
+      # Same as .all with subscription_id as filter
+      def self.find_by_id id, client = FastbillAutomatic.client
+        response = client.execute_request('subscription.get', { filter: { subscription_id: id } })
+
+        if response.success? && (subscription_data = response.fetch('subscriptions')).length > 0
+          return self.new(subscription_data[0], client)
+        else
+          return UnknownSubscription.new
+        end
+      end
+
+      # True if the subscription has been cancelled.
       def cancelled?
         return self.status == 'canceled'
       end
@@ -50,6 +62,10 @@ module FastbillAutomatic
         @errors = response.errors
         return false
       end
+    end
+
+    class UnknownSubscription < Subscription
+      def cancel; end
     end
   end
 end
