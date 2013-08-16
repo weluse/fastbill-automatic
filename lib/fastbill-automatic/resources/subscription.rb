@@ -30,7 +30,7 @@ module FastbillAutomatic
       end
 
       def cancelled?
-        return self.status == 'cancelled'
+        return self.status == 'canceled'
       end
 
       # Executes subscription.cancel
