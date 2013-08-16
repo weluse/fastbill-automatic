@@ -13,6 +13,8 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "FastbillAutomatic Docs"
   rdoc.rdoc_dir = 'doc'
   rdoc.options << '--line-numbers'
+  rdoc.options << '--inline-source'
+  rdoc.options << '--show-hash'
 end
 
 task :default => :test
