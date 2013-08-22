@@ -30,6 +30,9 @@ module FastbillAutomatic
       attribute :return_url_cancel, String
       attribute :checkout_url, String
 
+      alias_method :id, :article_number
+      alias_method :id=, :article_number=
+
       # Returns an Enumerable containing Article objects.
       def self.all client = FastbillAutomatic.client
         response = client.execute_request('article.get', {})

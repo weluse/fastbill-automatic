@@ -85,6 +85,9 @@ module FastbillAutomatic
       # set to true to replace items
       attribute :delete_existing_items, Boolean, default: false
 
+      alias_method :id, :invoice_id
+      alias_method :id=, :invoice_id=
+
       # Returns an Enumerable containing Invoice objects.
       #
       # filter supports the following keys:

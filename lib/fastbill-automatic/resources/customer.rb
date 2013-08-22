@@ -89,6 +89,9 @@ module FastbillAutomatic
       attribute :changedata_url, String
       attribute :dashboard_url, String
 
+      alias_method :id, :customer_id
+      alias_method :id=, :customer_id=
+
       # Returns an Enumerable containing Customer objects.
       #
       # filter supports the following keys:
