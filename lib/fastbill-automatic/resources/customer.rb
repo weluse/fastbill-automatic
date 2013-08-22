@@ -35,12 +35,23 @@ module FastbillAutomatic
     # The Customer class wraps basic interactions for
     # customer.get|update|delete service calls.
     #
-    # When creating instances of Customer one can pass
-    # all values specified in PARSED_ATTRIBUTES along and the attributes
-    # will be set accordingly.
+    # === Examples
+    #   include ::FastbillAutomatic::Resources
     #
-    # E.g.
-    # ::Customer.new({ customer_id: 42 })
+    #   # create a new customer with provided attributes
+    #   Customer.new({
+    #     :salutation => 'Herr',
+    #     :first_name => 'Max',
+    #     :last_name => 'Mustermann',
+    #     :organization => CustomerTypes::CONSUMER
+    #   }).save
+    #
+    #   # find an existing customer when customer_id is known
+    #   goldy = Customer.find_by_id(42)
+    #
+    #   # delete goldy
+    #   goldy.delete
+    #
     class Customer < Base
       attribute :customer_id, Integer
       attribute :customer_number, String
@@ -75,6 +86,9 @@ module FastbillAutomatic
       attribute :lastupdate, DateTime
       attribute :customer_ext_uid, String
 
+      attribute :changedata_url, String
+      attribute :dashboard_url, String
+
       # Returns an Enumerable containing Customer objects.
       #
       # filter supports the following keys:
@@ -96,10 +110,10 @@ module FastbillAutomatic
         return results
       end
 
-      # Returns an Customer if the id is known.
+      # Returns an Customer if the customer_id is known.
       # Otherwise returns an instance of UnknownCustomer
-      def self.find_by_id id, client = FastbillAutomatic.client
-        results = self.all({ customer_id: id }, client)
+      def self.find_by_id customer_id, client = FastbillAutomatic.client
+        results = self.all({ customer_id: customer_id }, client)
 
         return results.first || UnknownCustomer.new
       end
@@ -181,5 +195,3 @@ __END__
 
 not mapped as of 2013-08-14 (rra):
 "ADDRESS_2"
-"CHANGEDATA_URL"
-"DASHBOARD_URL"
