@@ -87,37 +87,6 @@ invoices = ::FastbillAutomatic::Resources::Invoice.all({
 })
 ```
 
-Invoices can be managed as well:
-
-``` ruby
-# create a new invoice
-invoice = ::FastbillAutomatic::Resources::Invoices.new({
-  customer_id: customer.customer_id,
-  currency_code: 'EUR',
-  eu_delivery: true,
-  items: [
-    {
-      description: 'Example',
-      unit_price: 200.0,
-      vat_percent: 19.0,
-      quantity: 2
-    }
-  ]
-})
-invoice.save # => true
-
-# change the price of an item
-first_item = invoice.items.first
-first_item.quantity = 4
-first_item.unit_price = 50
-
-invoice.save # => true
-
-# remove all items
-invoice.items = []
-invoice.save # => true
-```
-
 ## Development
 
 This gem makes use of the **[minitest framework](https://github.com/seattlerb/minitestbundle)** and takes advantage of the guard adaption **[minitest-guard](https://github.com/guard/guard-minitest)** running tests automatically when files are modified. Run all tests with *Rake test* or run minitest-guard through Bundler with

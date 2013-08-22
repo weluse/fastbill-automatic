@@ -36,6 +36,36 @@ module FastbillAutomatic
     end
 
     # The Invoice class wraps basic interactions for invoice.get|create|update|delete service calls.
+    #
+    # === Examples
+    #   include ::FastbillAutomatic::Resources
+    #
+    #   # create a new invoice
+    #   invoice = Invoices.new({
+    #     customer_id: customer.customer_id,
+    #     currency_code: 'EUR',
+    #     eu_delivery: true,
+    #     items: [
+    #       {
+    #         description: 'Example',
+    #         unit_price: 200.0,
+    #         vat_percent: 19.0,
+    #         quantity: 2
+    #       }
+    #     ]
+    #   })
+    #   invoice.save # => true
+    #
+    #   # change the price of an item
+    #   first_item = invoice.items.first
+    #   first_item.quantity = 4
+    #   first_item.unit_price = 50
+    #
+    #   invoice.save # => true
+    #
+    #   # remove all items
+    #   invoice.items = []
+    #   invoice.save # => true
     class Invoice < Base
       attribute :invoice_id, Integer
       attribute :invoice_number, String
@@ -153,7 +183,9 @@ module FastbillAutomatic
         return false
       end
 
-      # Executes invoice.destroy
+      # Executes invoice.delete
+      #
+      # Only works if your invoice is still a draft (you did not call #complete yet).
       def destroy
         response = client.execute_request('invoice.delete', {
           data: {
