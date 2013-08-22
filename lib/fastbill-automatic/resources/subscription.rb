@@ -28,7 +28,6 @@ module FastbillAutomatic
       attribute :next_event, DateTime
       attribute :cancellation_date, DateTime
       attribute :status, String
-      attribute :article_number, String
       attribute :subscription_ext_uid, String
       attribute :last_event, DateTime
 

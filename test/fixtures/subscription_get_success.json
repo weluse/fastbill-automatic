@@ -1,0 +1,40 @@
+{
+    "REQUEST": {
+        "SERVICE": "subscription.get",
+        "FILTER": [
+
+        ]
+    },
+    "RESPONSE": {
+        "SUBSCRIPTIONS": [
+            {
+                "SUBSCRIPTION_ID": "967",
+                "CUSTOMER_ID": "297683",
+                "START": "2013-08-15 13:36:49",
+                "NEXT_EVENT": "2013-09-15 13:36:49",
+                "CANCELLATION_DATE": "2013-11-15 13:36:49",
+                "STATUS": "canceled",
+                "ARTICLE_NUMBER": "1",
+                "SUBSCRIPTION_EXT_UID": "42",
+                "LAST_EVENT": "2013-08-15 13:36:49",
+                "ADDONS": [
+
+                ]
+            },
+            {
+                "SUBSCRIPTION_ID": "968",
+                "CUSTOMER_ID": "297683",
+                "START": "2013-08-15 13:52:23",
+                "NEXT_EVENT": "2013-09-15 13:52:23",
+                "CANCELLATION_DATE": "2013-11-15 13:52:23",
+                "STATUS": "canceled",
+                "ARTICLE_NUMBER": "1",
+                "SUBSCRIPTION_EXT_UID": "",
+                "LAST_EVENT": "2013-08-15 13:52:23",
+                "ADDONS": [
+
+                ]
+            }
+        ]
+    }
+}
