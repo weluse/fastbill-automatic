@@ -1,0 +1,17 @@
+{
+    "REQUEST": {
+        "SERVICE": "template.get"
+    },
+    "RESPONSE": {
+        "TEMPLATES": [
+            {
+                "TEMPLATE_ID": 3063,
+                "TEMPLATE_NAME": "Englischsprachige Vorlage"
+            },
+            {
+                "TEMPLATE_ID": 1,
+                "TEMPLATE_NAME": "Standard Rechnungsvorlage"
+            }
+        ]
+    }
+}

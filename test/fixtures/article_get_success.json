@@ -1,0 +1,28 @@
+{
+    "REQUEST": {
+        "SERVICE": "article.get"
+    },
+    "RESPONSE": {
+        "ARTICLES": [
+            {
+                "ARTICLE_NUMBER": "1",
+                "TITLE": "Premium / Monat",
+                "DESCRIPTION": "",
+                "UNIT_PRICE": "15.0000",
+                "ALLOW_MULTIPLE": "1",
+                "IS_ADDON": "0",
+                "CURRENCY_CODE": "EUR",
+                "VAT_PERCENT": "19.00",
+                "SETUP_FEE": "42.9900",
+                "SUBSCRIPTION_INTERVAL": "1 month",
+                "SUBSCRIPTION_NUMBER_EVENTS": "1",
+                "SUBSCRIPTION_TRIAL": 2,
+                "SUBSCRIPTION_DURATION": "3 month",
+                "SUBSCRIPTION_CANCELLATION": "2 month",
+                "RETURN_URL_SUCCESS": "http://example.com/plans/confirm_change",
+                "RETURN_URL_CANCEL": "http://example.com/plans/cancel_change",
+                "CHECKOUT_URL": "https://automatic.fastbill.com/index.php?cmd=1001&token=asd&productId=1"
+            }
+        ]
+    }
+}
