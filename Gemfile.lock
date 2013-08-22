@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fastbill-automatic (0.0.1)
+    fastbill-automatic (0.1.0)
       typhoeus (~> 0.6.4)
       virtus (~> 0.5.5)
 
