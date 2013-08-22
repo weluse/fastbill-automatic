@@ -41,7 +41,10 @@ invoices = Invoice.all()
 subscriptions = Subscription.all()
 ```
 
-For a more detailed example see the RDoc.
+At the time of writing you can use this library to manage customers, create invoices and to create and manage subscriptions.
+See below for a list of not implemented API features.
+
+A more detailed usage example is included in RDoc.
 
 ## Development
 
