@@ -5,6 +5,7 @@ require "fastbill-automatic/resources/customer"
 require "fastbill-automatic/resources/invoice"
 require "fastbill-automatic/resources/subscription"
 require "fastbill-automatic/resources/article"
+require "fastbill-automatic/resources/template"
 
 module FastbillAutomatic
   # Default client used by all API resources unless a different

@@ -202,7 +202,7 @@ module FastbillAutomatic
         return false
       end
 
-      # Executes invoice.complete
+      # Transforms your draft into a ready-to-bill real invoice.
       def complete
         response = client.execute_request('invoice.complete', {
           data: {
@@ -219,7 +219,7 @@ module FastbillAutomatic
         return false
       end
 
-      # Executes invoice.cancel
+      # Cancels the invoice.
       def cancel
         response = client.execute_request('invoice.cancel', {
           data: {
@@ -236,7 +236,7 @@ module FastbillAutomatic
         return false
       end
 
-      # Executes invoice.sendbyemail
+      # Notifies the recipient of an invoice using email. The Email is send by FastbillAutomatic.
       def send_by_email subject, message, recipient
         response = client.execute_request('invoice.sendbyemail', {
           data: {
