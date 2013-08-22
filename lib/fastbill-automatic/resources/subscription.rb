@@ -39,6 +39,9 @@ module FastbillAutomatic
       attribute :unit_price, BigDecimal
       attribute :currency_code, String
 
+      alias_method :id, :subscription_id
+      alias_method :id=, :subscription_id=
+
       # Returns an Enumerable containing Subscription objects.
       #
       # filter supports the following keys:
