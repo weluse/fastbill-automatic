@@ -221,7 +221,7 @@ module FastbillAutomatic
         return false
       end
 
-      # Decides if a Customer is persisted by looking at its #customer_id
+      # Decides if a Invoice is persisted by looking at its #invoice_id
       def new?
         return self.invoice_id.to_s == ''
       end
