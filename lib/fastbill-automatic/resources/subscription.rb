@@ -1,5 +1,25 @@
 module FastbillAutomatic
   module Resources
+    # Subscription wraps subscription.get|update|create|changearticle access
+    #
+    # subscription.setaddon and subscription.setusagedata are currently not supported
+    #
+    # === TODO
+    #
+    # * add support for subscription.setaddon
+    # * add support for subscription.setusagedata
+    #
+    # === Examples
+    #   include ::FastbillAutomatic::Resources
+    #
+    #   # create a new subscription for an existing customer and a random article
+    #   customer = Customer.all().sample
+    #   subscription = Subscription.new({
+    #     :customer_id => customer.id
+    #     :article_number => Article.all().sample.id
+    #   })
+    #   subscription.save
+    #
     class Subscription < Base
       attribute :subscription_id, Integer
       attribute :article_number, Integer
@@ -12,6 +32,7 @@ module FastbillAutomatic
       attribute :subscription_ext_uid, String
       attribute :last_event, DateTime
 
+      # @transient
       # optional: used to overwrite article attributes
       attribute :coupon, String
       attribute :title, String
@@ -36,14 +57,16 @@ module FastbillAutomatic
         return results
       end
 
-      # Same as .all with subscription_id as filter
-      def self.find_by_id id, client = FastbillAutomatic.client
-        results = self.all({ subscription_id: id }, client)
+      # Returns the first subscription with a given subscription_id
+      # or an instance of UnknownSubscription.
+      def self.find_by_id subscription_id, client = FastbillAutomatic.client
+        results = self.all({ subscription_id: subscription_id }, client)
         return results.first || UnknownSubscription.new
       end
 
-      attr_reader :article_number_changed
-      def article_number= val
+
+      attr_reader :article_number_changed # :nodoc:
+      def article_number= val # :nodoc:
         if !self.new? && val.to_s != self.article_number
           @article_number_changed = true
         end
@@ -134,11 +157,7 @@ module FastbillAutomatic
         return false
       end
 
-      # TODO add support for subscription.setaddon
-      # TODO add support for subscription.setusagedata
-
       protected
-
       def execute_update
         response = client.execute_request('subscription.create', {
           data: {
