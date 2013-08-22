@@ -42,6 +42,14 @@ module FastbillAutomatic
         return results.first || UnknownSubscription.new
       end
 
+      attr_reader :article_number_changed
+      def article_number= val
+        if !self.new? && val.to_s != self.article_number
+          @article_number_changed = true
+        end
+        super
+      end
+
       # True if the subscription has been cancelled.
       def cancelled?
         return self.status == 'canceled'
@@ -53,8 +61,17 @@ module FastbillAutomatic
       end
 
       def create
+        # TODO support for addons?
         response = client.execute_request('subscription.create', {
-          data: self.attributes
+          data: {
+            subscription_ext_uid: subscription_ext_uid,
+            article_number: article_number,
+            customer_id: customer_id,
+            coupon: coupon,
+            title: title,
+            unit_price: unit_price,
+            currency_code: currency_code
+          }
         })
 
         if response.success? && response.fetch('status') == 'success'
@@ -67,20 +84,12 @@ module FastbillAutomatic
         return false
       end
 
+      # executes subscription.update and if necessary subscription.changearticle
       def update
-        response = client.execute_request('subscription.create', {
-          data: self.attributes
-        })
-
-        if response.success? && response.fetch('status') == 'success'
-          @errors = []
-          self.next_event = response.fetch('next_event')
-          self.subscription_ext_uid = response.fetch('subscription_ext_uid')
-          return true
+        if article_number_changed == true
+          return execute_update && change_article
         end
-
-        @errors = response.errors
-        return false
+        return execute_update
       end
 
       # Executes subscription.cancel
@@ -94,6 +103,55 @@ module FastbillAutomatic
         if response.success? && response.fetch('status') == 'success'
           @errors = []
           self.cancellation_date = response.fetch('cancellation_date')
+          return true
+        end
+
+        @errors = response.errors
+        return false
+      end
+
+      # Invokes subscription.changearticle.
+      #
+      # This method is executed automatically for already persisted Subscriptions if you
+      # changed the article_number using the setter.
+      def change_article
+        response = client.execute_request('subscription.changearticle', {
+          data: {
+            subscription_id: subscription_id,
+            article_number: article_number,
+            title: title,
+            unit_price: unit_price,
+            currency_code: currency_code
+          }
+        })
+
+        if response.success? && response.fetch('status') == 'success'
+          @errors = []
+          return true
+        end
+
+        @errors = response.errors
+        return false
+      end
+
+      # TODO add support for subscription.setaddon
+      # TODO add support for subscription.setusagedata
+
+      protected
+
+      def execute_update
+        response = client.execute_request('subscription.create', {
+          data: {
+            subscription_id: subscription_id,
+            next_event: next_event,
+            subscription_ext_uid: subscription_ext_uid,
+          }
+        })
+
+        if response.success? && response.fetch('status') == 'success'
+          @errors = []
+          self.next_event = response.fetch('next_event')
+          self.subscription_ext_uid = response.fetch('subscription_ext_uid')
           return true
         end
 
