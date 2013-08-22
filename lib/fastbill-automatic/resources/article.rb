@@ -1,5 +1,15 @@
 module FastbillAutomatic
   module Resources
+    # Article wraps interaction with article.get
+    #
+    # Currently articles are read only.
+    #
+    # === Examples
+    #   include ::FastbillAutomatic::Resources
+    #
+    #   # read all known Article
+    #   articles = Article.all()
+    #
     class Article < Base
       attribute :article_number, Integer
       attribute :title, String
@@ -15,13 +25,14 @@ module FastbillAutomatic
       attribute :subscription_trial, Integer
       attribute :subscription_duration, String
       attribute :subscription_cancellation, String
+
       attribute :return_url_success, String
       attribute :return_url_cancel, String
       attribute :checkout_url, String
 
       # Returns an Enumerable containing Article objects.
-      def self.all filter = {}, client = FastbillAutomatic.client
-        response = client.execute_request('article.get', { filter: filter })
+      def self.all client = FastbillAutomatic.client
+        response = client.execute_request('article.get', {})
 
         results = []
         if response.success?
